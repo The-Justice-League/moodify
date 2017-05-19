@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -58,6 +60,74 @@ describe( 'spotify API', function() {
       expect(result.danceability).to.be.within(0, 10);
       expect(result.energy).to.be.within(0, 10);
       expect(result.mood).to.be.within(0, 10);
+    });
+  });
+
+  describe( 'getRecommendations', function() {
+
+    let uri;
+    let numResults;
+
+    let result1;
+    let result2;
+    let result3;
+
+    before( function() {
+      uri = 'spotify:track:0oXnmfo2kW3joSeiXoazdV';
+      numResults = 6;
+    });
+
+    it( 'should get recommendations with a seed and no moodifiers', function() {
+      return spotify.getRecommendations( uri, {}, numResults )
+      .then( res => {
+        expect(res).to.have.property('tracks');
+        expect(res.tracks).to.have.length.of.at.least(1);
+        result1 = res.tracks;
+      });
+    });
+
+    it( 'should get the requested number of recommnedations', function() {
+      return spotify.getRecommendations( uri, {}, numResults )
+      .then( res => {
+        expect(res).to.have.property('tracks');
+        expect(res.tracks).to.have.length.of(numResults);
+      });
+    });
+
+    it( 'should get recommnedations with a seed and one moodifier', function() {
+      const moodifiers = { energy: 2 };
+      return spotify.getRecommendations( uri, moodifiers, numResults )
+      .then( res => {
+        expect(res).to.have.property('tracks');
+        expect(res.tracks).to.have.length.of(numResults);
+        result2 = res.tracks;
+      });
+    });
+
+    it( 'should get recommnedations with a seed and all moodifiers', function() {
+      const moodifiers = {
+        energy: 2,
+        danceability: 2,
+        mood: 2,
+      };
+      return spotify.getRecommendations( uri, moodifiers, numResults )
+      .then( res => {
+        expect(res).to.have.property('tracks');
+        expect(res.tracks).to.have.length.of(numResults);
+        result3 = res.tracks;
+      });
+    });
+
+    it( 'should provide different recommendations for different moodifiers', function() {
+      result1 = _(result1).sortBy( 'uri' );
+      result2 = _(result2).sortBy( 'uri' );
+      result3 = _(result3).sortBy( 'uri' );
+      expect(result1).to.not.deep.equal(result2);
+      expect(result1).to.not.deep.equal(result3);
+      expect(result2).to.not.deep.equal(result3);
+      console.log( result1 );
+      console.log( result2 );
+      console.log( result3 );
     });
   });
 

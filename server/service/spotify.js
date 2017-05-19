@@ -103,9 +103,7 @@ const getTrackAnalysisRequest = function( trackId ) {
   });
 };
 
-const getRecommendationsRequest = function( uri, options, numResults ) {
-  // write test case
-
+const getRecommendationsRequest = function( uri, moodifiers, numResults ) {
   // extract trackId
 
   // remap options to spotify options
@@ -114,7 +112,7 @@ const getRecommendationsRequest = function( uri, options, numResults ) {
 
   // put params into axios querystring
     // target_*={#}
-    // seed_tracks={id}
+    // seed_tracks={track_id}
     // submit query
     // limit=5
 
@@ -133,6 +131,11 @@ const getTrackAnalysis = function( trackId ) {
   return authenticatedRequest( getTrackAnalysisRequest, trackId );
 };
 
+const getRecommendations = function( uri, moodifiers = {}, numResults = 5 ) {
+  return authenticatedRequest( getRecommendationsRequest, uri, moodifiers, numResults );
+};
+
 module.exports.requestAccessToken = requestAccessToken;
 module.exports.getSongByTitleAndArtist = getSongByTitleAndArtist;
 module.exports.getTrackAnalysis = getTrackAnalysis;
+module.exports.getRecommendations = getRecommendations;
