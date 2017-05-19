@@ -3,8 +3,11 @@ import React from 'react';
 class Recommendations extends React.Component {
   constructor(props) {
     super(props);
+  }
 
-    // state? yes maybe - only when clicked on should it appear???
+  changeSong(uri) {
+    this.props.updatePlayer(uri);
+    console.log('clicked - value of uri === ', uri)
   }
 
   render() {
@@ -12,13 +15,15 @@ class Recommendations extends React.Component {
     return (
       <div >
         <h2>Recommendations</h2>
-        <p>{this.props.dummyd.songName + ' ' + this.props.dummyd.artistName}</p>
-        <p>{this.props.dummyd.songName + ' ' + this.props.dummyd.artistName}</p>
-        <p>{this.props.dummyd.songName + ' ' + this.props.dummyd.artistName}</p>
-        <p>{this.props.dummyd.songName + ' ' + this.props.dummyd.artistName}</p>
+        <h6 onClick={this.changeSong.bind(this, this.props.dummyd.uridummy)} >
+        {this.props.dummyd.songName + ' ' + this.props.dummyd.artistName}</h6>
       </div>
     );
   }
 };
 
 export default Recommendations;
+
+/*
+<h6>{this.props.songNameAndArtist[0] + ' - ' + this.props.songNameAndArtist[1]}</h6>
+*/

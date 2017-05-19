@@ -15,7 +15,8 @@ class Moodifier extends React.Component {
       songURIs: [],
       dummyd: {
         songName: 'hello',
-        artistName: 'Adele'
+        artistName: 'Adele',
+        uridummy: `spotify:track:49edox3q89CG1g6rJVfmHE`
       }
     }
 
@@ -85,7 +86,12 @@ class Moodifier extends React.Component {
         </label>
       </div>
       <button onClick={this.moodify} >Moodify</button>
-      <Recommendations songUris={this.state.songUris} dummyd={this.state.dummyd} spotifyURI={this.props.spotifyURI} />
+      <Recommendations
+        dummyd={this.state.dummyd}
+        songUris={this.state.songUris}
+        spotifyURI={this.props.spotifyURI}
+        updatePlayer={this.props.updatePlayer}
+      />
       </div>
     );
   }

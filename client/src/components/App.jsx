@@ -154,6 +154,8 @@ class App extends React.Component {
     this.setState({
       spotifyURI: uri
     });
+    this.process(trackObj);
+    console.log('update spotify uri click !! HOORAAAAYYY wooohooo ')
   }
 
   render() {
@@ -193,7 +195,6 @@ class App extends React.Component {
               prev={this.showResultsUser}
               upDown={this.state.upDownUser}
               runUpDown={this.upDownUser}
-              process={this.process}
               searchResultsLoading={this.state.searchResultsLoadingUser}
               loadPastSearchResults={this.loadPastSearchResults}
             />
