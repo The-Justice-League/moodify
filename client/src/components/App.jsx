@@ -149,6 +149,12 @@ class App extends React.Component {
     });
   }
 
+  updatePlayer(uri) {
+    this.setState({
+      spotifyURI: uri
+    });
+  }
+
   render() {
     return (
       <div>
