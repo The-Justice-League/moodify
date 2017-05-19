@@ -225,7 +225,7 @@ app.get('/recommend', (req, res) => {
   return spotify.getRecommendations( req.query.uri, moodifiers, req.query.num_results )
   .then( spotifyResponse => {
 
-    const recs = spotifyResponse.tracks.map( track => {
+    const recs = spotifyResponse.data.tracks.map( track => {
       const artists = _(track.artists).pluck('name').join(' and ');
       return {
         artistName: artists,
@@ -234,8 +234,7 @@ app.get('/recommend', (req, res) => {
       };
     });
 
-    // res.status(200).send({ recommendations: recs });
-    res.status(200).send( spotifyResponse );
+    res.status(200).send({ recommendations: recs });
   })
   .catch( err => {
     console.log( err );

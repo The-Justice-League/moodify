@@ -80,17 +80,17 @@ describe( 'spotify API', function() {
     it( 'should get recommendations with a seed and no moodifiers', function() {
       return spotify.getRecommendations( uri, {}, numResults )
       .then( res => {
-        expect(res).to.have.property('tracks');
-        expect(res.tracks).to.have.length.of.at.least(1);
-        result1 = res.tracks;
+        expect(res.data).to.have.property('tracks');
+        expect(res.data.tracks).to.have.length.of.at.least(1);
+        result1 = res.data.tracks;
       });
     });
 
     it( 'should get the requested number of recommnedations', function() {
       return spotify.getRecommendations( uri, {}, numResults )
       .then( res => {
-        expect(res).to.have.property('tracks');
-        expect(res.tracks).to.have.length.of(numResults);
+        expect(res.data).to.have.property('tracks');
+        expect(res.data.tracks).to.have.length.of(numResults);
       });
     });
 
@@ -98,9 +98,9 @@ describe( 'spotify API', function() {
       const moodifiers = { energy: 2 };
       return spotify.getRecommendations( uri, moodifiers, numResults )
       .then( res => {
-        expect(res).to.have.property('tracks');
-        expect(res.tracks).to.have.length.of(numResults);
-        result2 = res.tracks;
+        expect(res.data).to.have.property('tracks');
+        expect(res.data.tracks).to.have.length.of(numResults);
+        result2 = res.data.tracks;
       });
     });
 
@@ -112,9 +112,9 @@ describe( 'spotify API', function() {
       };
       return spotify.getRecommendations( uri, moodifiers, numResults )
       .then( res => {
-        expect(res).to.have.property('tracks');
-        expect(res.tracks).to.have.length.of(numResults);
-        result3 = res.tracks;
+        expect(res.data).to.have.property('tracks');
+        expect(res.data.tracks).to.have.length.of(numResults);
+        result3 = res.data.tracks;
       });
     });
 
@@ -125,9 +125,6 @@ describe( 'spotify API', function() {
       expect(result1).to.not.deep.equal(result2);
       expect(result1).to.not.deep.equal(result3);
       expect(result2).to.not.deep.equal(result3);
-      console.log( result1 );
-      console.log( result2 );
-      console.log( result3 );
     });
   });
 

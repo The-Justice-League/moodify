@@ -80,13 +80,13 @@ const standardizeResult = function( input, forClient = true ) {
 const mapMoodifyToSpotify = function( moodifiers ) {
   let spotifyAttributes = {};
 
-  if ( moodifiers.hasOwnProperty(mood) ) {
+  if ( moodifiers.hasOwnProperty('mood') ) {
     spotifyAttributes.valence = moodifiers.mood;
   }
-  if ( moodifiers.hasOwnProperty(energy) ) {
+  if ( moodifiers.hasOwnProperty('energy') ) {
     spotifyAttributes.energy = moodifiers.energy;
   }
-  if ( moodifiers.hasOwnProperty(danceability) ) {
+  if ( moodifiers.hasOwnProperty('danceability') ) {
     spotifyAttributes.danceability = moodifiers.danceability;
   }
 
@@ -96,13 +96,13 @@ const mapMoodifyToSpotify = function( moodifiers ) {
 const mapSpotifyToMoodify = function( spotifyAttributes ) {
   let moodifyAttributes = {};
 
-  if ( spotifyAttributes.hasOwnProperty(valence) ) {
+  if ( spotifyAttributes.hasOwnProperty('valence') ) {
     moodifyAttributes.mood = spotifyAttributes.valence;
   }
-  if ( spotifyAttributes.hasOwnProperty(energy) ) {
+  if ( spotifyAttributes.hasOwnProperty('energy') ) {
     moodifyAttributes.energy = spotifyAttributes.energy;
   }
-  if ( spotifyAttributes.hasOwnProperty(danceability) ) {
+  if ( spotifyAttributes.hasOwnProperty('danceability') ) {
     moodifyAttributes.danceability = spotifyAttributes.danceability;
   }
 
