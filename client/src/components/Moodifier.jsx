@@ -20,7 +20,7 @@ class Moodifier extends React.Component {
       }
     }
 
-    // this.danceability = this.danceability.bind(this);
+    this.danceability = this.danceability.bind(this);
     this.energy = this.energy.bind(this);
     this.mood = this.mood.bind(this);
   }
@@ -53,7 +53,6 @@ class Moodifier extends React.Component {
     }
     axios.get('/moodify', { params: queries }).then(res => {
       const data = res.data;
-      console.log('Response in /moodify === ', data)
       this.setState({
         recommendations: data.recommendations
       })
@@ -64,12 +63,7 @@ class Moodifier extends React.Component {
   }
 
   render() {
-  //   console.log('getting inside moodifier jsx');
-    console.log('PROPS inside moodifier === ', this.props);
-    // console.log('danceability === ', this.state.danceability);
-    // console.log('mood === ', this.state.mood);
-    // console.log('energy === ', this.state.energy);
-
+    // console.log('PROPS inside moodifier === ', this.props);
     return (
       <div className="maingraph">
       <h2>Music Analysis</h2>
