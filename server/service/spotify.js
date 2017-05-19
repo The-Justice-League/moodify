@@ -10,6 +10,7 @@ const SPOTIFY_AUTHENTICATION_URL = 'https://accounts.spotify.com/api/token';
 const SPOTIFY_ROOT_URL = 'https://api.spotify.com/v1';
 const SPOTIFY_SEARCH_URL = `${SPOTIFY_ROOT_URL}/search`;
 const SPOTIFY_ANALYSIS_URL = `${SPOTIFY_ROOT_URL}/audio-features`;
+const SPOTIFY_RECOMMENDATIONS_URL = `${SPOTIFY_ROOT_URL}/recommendations`;
 
 const requestAccessToken = () => {
   const qs = querystring.stringify({ 'grant_type': 'client_credentials' });
@@ -76,6 +77,38 @@ const standardizeResult = function( input, forClient = true ) {
   }
 };
 
+const mapMoodifyToSpotify = function( moodifiers ) {
+  let spotifyAttributes = {};
+
+  if ( moodifiers.hasOwnProperty(mood) ) {
+    spotifyAttributes.valence = moodifiers.mood;
+  }
+  if ( moodifiers.hasOwnProperty(energy) ) {
+    spotifyAttributes.energy = moodifiers.energy;
+  }
+  if ( moodifiers.hasOwnProperty(danceability) ) {
+    spotifyAttributes.danceability = moodifiers.danceability;
+  }
+
+  return standardizeResult( spotifyAttributes, false );
+};
+
+const mapSpotifyToMoodify = function( spotifyAttributes ) {
+  let moodifyAttributes = {};
+
+  if ( spotifyAttributes.hasOwnProperty(valence) ) {
+    moodifyAttributes.mood = spotifyAttributes.valence;
+  }
+  if ( spotifyAttributes.hasOwnProperty(energy) ) {
+    moodifyAttributes.energy = spotifyAttributes.energy;
+  }
+  if ( spotifyAttributes.hasOwnProperty(danceability) ) {
+    moodifyAttributes.danceability = spotifyAttributes.danceability;
+  }
+
+  return standardizeResult( moodifyAttributes, true );
+};
+
 const getSongByTitleAndArtistRequest = function( title, artist ) {
   const axiosConfig = {
     params: {
@@ -94,33 +127,27 @@ const getTrackAnalysisRequest = function( trackId ) {
   return axios.get( `${SPOTIFY_ANALYSIS_URL}/${trackId}` )
   .then( res => {
     return standardizeResult({
-    // return {
       danceability: res.data.danceability,
       energy: res.data.energy,
       mood: res.data.valence,
-    // };
     });
   });
 };
 
 const getRecommendationsRequest = function( uri, moodifiers, numResults ) {
-  // extract trackId
+  const trackId = uri.slice( 'spotify:track:'.length );
 
-  // remap options to spotify options
-    // mood -> valence
-    // number ranges
+  let spotifyAttributes = mapMoodifyToSpotify( moodifiers );
 
-  // put params into axios querystring
-    // target_*={#}
-    // seed_tracks={track_id}
-    // submit query
-    // limit=5
+  let params = {
+    'seed_tracks': trackId,
+    limit: numResults,
+  };
+  for ( prop in spotifyAttributes ) {
+    params['target_' + prop] = spotifyAttributes[prop];
+  }
 
-  // return axios call
-
-  // add request call wrapper
-  // add module.exports
-  // handle in app
+  return axios.get( `${SPOTIFY_RECOMMENDATIONS_URL}`, { params: params } );
 };
 
 const getSongByTitleAndArtist = function( title, artist ) {
