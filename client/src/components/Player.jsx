@@ -4,7 +4,6 @@ import renderIf from 'render-if';
 class Player extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
   render() {
@@ -14,7 +13,7 @@ class Player extends React.Component {
         {renderIf(this.props.spotifyURI)(
           <div className="player" >
             <iframe src={'https://open.spotify.com/embed?uri=' + this.props.spotifyURI}
-                    frameBorder="0" width="100%" height="auto"/>
+              frameBorder="0" width="100%" height="auto"/>
           </div>
         )}
       </div>

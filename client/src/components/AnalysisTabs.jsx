@@ -2,8 +2,8 @@ import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../dist/react-tabs.css';
 
-import MusicAnalysis from './MusicAnalysis.jsx';
-import Mood from './Mood.jsx';
+import Moodifier from './Moodifier.jsx';
+import LyricsAnalysis from './LyricsAnalysis.jsx';
 
 class AnalysisTabs extends React.Component {
   constructor(props) {
@@ -11,21 +11,30 @@ class AnalysisTabs extends React.Component {
   }
 
   render() {
+    console.log('Props in AnalysisTabs === ', this.props)
     return (
       <Tabs>
         <TabList>
-          <Tab >Music Analysis</Tab>
-          <Tab >Lyrics Analysis</Tab>
+          <Tab>Music Analysis</Tab>
+          <Tab>Lyrics Analysis</Tab>
         </TabList>
-
         <TabPanel>
-          <h3>Mood Analysis</h3>
-          <MusicAnalysis watson={this.props.watson} songNameAndArtist={this.props.songNameAndArtist} ></MusicAnalysis>
+          <Moodifier
+            currentLyrics={this.props.currentLyrics}
+            processRecommendation={this.props.processRecommendation}
+            spotifyURI={this.props.spotifyURI}
+            songNameAndArtist={this.props.songNameAndArtist}
+            spotifyAnalysis={this.props.spotifyAnalysis}
+            spotifyURI={this.props.spotifyURI}
+            songNameAndArtist={this.props.currentSongNameAndArtist}
+            watson={this.props.watson}
+          />
         </TabPanel>
-
         <TabPanel>
-          <h3>Lyrics Analysis</h3>
-          <Mood watson={this.props.watson} songNameAndArtist={this.props.songNameAndArtist} ></Mood>
+          <LyricsAnalysis
+            songNameAndArtist={this.props.songNameAndArtist}
+            watson={this.props.watson}
+          />
         </TabPanel>
       </Tabs>
     );

@@ -5,7 +5,7 @@ import axios from 'axios';
 import {Switch, Route, Link} from 'react-router-dom';
 // sub components
 import Lyrics from './Lyrics.jsx';
-import Mood from './Mood.jsx';
+import LyricsAnalysis from './LyricsAnalysis.jsx';
 import Player from './Player.jsx';
 import Search from './Search.jsx';
 import Header from './Header.jsx';
@@ -19,34 +19,37 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentSongNameAndArtist: [],
       currentLyrics: '',
-      watson: {},
-      spotifyURI: null,
-      searchResults: [],
-      searchResultsUser: [],
-      searchResultsLoading: false,
-      spotifyLoading: false,
+      currentSongNameAndArtist: [],
+      loggedIn: false,
       lyricsLoading: false,
-      showPlayer: false,
+      searchResults: [],
+      searchResultsLoading: false,
+      searchResultsLoadingUser: false,
+      searchResultsUser: [],
       showLyrics: false,
       showMood: false,
+      showPlayer: false,
+      showPrev: false,
       showResults: false,
       showResultsUser: false,
-      showPrev: false,
+      spotifyAnalysis: null,
+      spotifyLoading: false,
+      spotifyURI: null,
       upDown: true,
-      url: window.location.href,
-      loggedIn: false,
       upDownUser: false,
-      searchResultsLoadingUser: false
+      url: window.location.href,
+      watson: {}
     };
-    this.search = this.search.bind(this);
+
+    this.loadPastSearchResults = this.loadPastSearchResults.bind(this);
     this.process = this.process.bind(this);
+    this.search = this.search.bind(this);
     this.showResults = this.showResults.bind(this);
+    this.showResultsUser = this.showResultsUser.bind(this);
     this.upDown = this.upDown.bind(this);
     this.upDownUser = this.upDownUser.bind(this);
-    this.showResultsUser = this.showResultsUser.bind(this);
-    this.loadPastSearchResults = this.loadPastSearchResults.bind(this);
+    this.processRecommendation = this.processRecommendation.bind(this);
   }
 
   search(title, artist) {
@@ -66,15 +69,15 @@ class App extends React.Component {
 
   process(trackObj) {
     this.setState({
-      showPlayer: true,
-      spotifyLoading: true,
       lyricsLoading: true,
-      showResults: false,
-      showResultsUser: false,
-      upDownUser: false,
       showLyrics: false,
       showMood: false,
-      upDown: true
+      showPlayer: true,
+      showResults: false,
+      showResultsUser: false,
+      spotifyLoading: true,
+      upDown: true,
+      upDownUser: false
     });
 
     let input = {};
@@ -89,18 +92,38 @@ class App extends React.Component {
     axios.post('/process', input).then(res => {
       let data = res.data;
       this.setState({
-        currentSongNameAndArtist: data[0],
         currentLyrics: data[1],
-        watson: data[2],
-        spotifyURI: data[3],
-        spotifyLoading: false,
+        currentSongNameAndArtist: data[0],
         lyricsLoading: false,
         showLyrics: true,
-        showMood: true
+        showMood: true,
+        spotifyAnalysis: data[4],
+        spotifyLoading: false,
+        spotifyURI: data[3],
+        watson: data[2],
       });
     }).catch(error => {
       throw error;
     });
+  }
+
+  loadPastSearchResults(trackId) {
+    axios.post('/loadPastSearchResults', {track_id: trackId}).then(res => {
+      let songData = res.data[0];
+      let watsonData = res.data[1];
+      console.log(watsonData);
+      this.setState({
+        currentLyrics: songData.lyrics,
+        currentSongNameAndArtist: [
+          songData.track_name, songData.artist_name
+        ],
+        watson: watsonData,
+        spotifyURI: songData.spotify_uri,
+        showMood: true,
+        showPlayer: true,
+        showLyrics: true
+      });
+    }).catch(err => console.log(err));
   }
 
   showResults() {
@@ -127,23 +150,15 @@ class App extends React.Component {
     });
   }
 
-  loadPastSearchResults(trackId) {
-    axios.post('/loadPastSearchResults', {track_id: trackId}).then(res => {
-      let songData = res.data[0];
-      let watsonData = res.data[1];
-      console.log(watsonData);
-      this.setState({
-        currentLyrics: songData.lyrics,
-        currentSongNameAndArtist: [
-          songData.track_name, songData.artist_name
-        ],
-        watson: watsonData,
-        spotifyURI: songData.spotify_uri,
-        showMood: true,
-        showPlayer: true,
-        showLyrics: true
-      });
-    }).catch(err => console.log(err));
+  processRecommendation(uri, songName, artistName) {
+    this.setState({
+      currentLyrics: '',
+      spotifyURI: uri,
+      currentSongNameAndArtist: [
+        songName, artistName
+      ]
+    });
+    this.process(trackObj);
   }
 
   render() {
@@ -152,16 +167,49 @@ class App extends React.Component {
         <Header url={this.state.url}/>
         <div className="container">
           <div className="col1">
-            <Search search={this.search} prev={this.showResults} showPrev={this.state.showPrev} upDown={this.state.upDown} runUpDown={this.upDown}/> {this.state.showResults
-              ? <SearchResults results={this.state.searchResults} process={this.process} searchResultsLoading={this.state.searchResultsLoading}/>
-              : null}
-            {this.state.showPlayer
-              ? <Lyrics showPlayer={this.state.showPlayer} spotifyURI={this.state.spotifyURI} loading={this.state.spotifyLoading} lyrics={this.state.currentLyrics} loading={this.state.lyricsLoading} songNameAndArtist={this.state.currentSongNameAndArtist}/>
-              : null}
+            <Search
+              search={this.search}
+              prev={this.showResults}
+              showPrev={this.state.showPrev}
+              upDown={this.state.upDown}
+              runUpDown={this.upDown}
+            />
+            {this.state.showResults ? // if show results is true, render SearchResults, otherwise nothing
+              <SearchResults
+                results={this.state.searchResults}
+                process={this.process}
+                searchResultsLoading={this.state.searchResultsLoading}
+              />
+            : null}
+            {this.state.showPlayer ? // if showPlayer is true, render Lyrics, otherwise nothing
+            <Lyrics
+              showPlayer={this.state.showPlayer}
+              spotifyURI={this.state.spotifyURI}
+              loading={this.state.spotifyLoading}
+              lyrics={this.state.currentLyrics}
+              loading={this.state.lyricsLoading}
+              songNameAndArtist={this.state.currentSongNameAndArtist}
+            />
+            : null}
           </div>
           <div className="col2">
-            <User showPrev={this.state.showResultsUser} prev={this.showResultsUser} upDown={this.state.upDownUser} runUpDown={this.upDownUser} process={this.process} searchResultsLoading={this.state.searchResultsLoadingUser} loadPastSearchResults={this.loadPastSearchResults}/>
-            <AnalysisTabs  watson={this.state.watson} songNameAndArtist={this.state.currentSongNameAndArtist} />
+            <User
+              showPrev={this.state.showResultsUser}
+              prev={this.showResultsUser}
+              upDown={this.state.upDownUser}
+              runUpDown={this.upDownUser}
+              searchResultsLoading={this.state.searchResultsLoadingUser}
+              loadPastSearchResults={this.loadPastSearchResults}
+            />
+            <AnalysisTabs
+              currentLyrics={this.state.currentLyrics}
+              processRecommendation={this.processRecommendation}
+              showLyrics={this.state.showLyrics}
+              spotifyAnalysis={this.state.spotifyAnalysis}
+              spotifyURI={this.state.spotifyURI}
+              songNameAndArtist={this.state.currentSongNameAndArtist}
+              watson={this.state.watson}
+            />
           </div>
         </div>
       </div>

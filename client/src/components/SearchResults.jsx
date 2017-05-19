@@ -3,8 +3,7 @@ import React from 'react';
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -28,7 +27,12 @@ class SearchResults extends React.Component {
       return (
         <div className="resultsBox">
           {this.props.results.track_list.map((trackObj, i) => (
-            <div className='searchText' key={i} value={i} onClick={this.handleClick} > {i + 1}. {trackObj.track.track_name} - {trackObj.track.artist_name}</div>
+            <div
+              className='searchText'
+              key={i}
+              value={i}
+              onClick={this.handleClick} > {i + 1}. {trackObj.track.track_name} - {trackObj.track.artist_name}
+            </div>
           ))}
         </div>
       );
