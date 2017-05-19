@@ -4,7 +4,6 @@ import renderIf from 'render-if';
 class Player extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
   render() {

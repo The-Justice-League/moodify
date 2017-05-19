@@ -49,7 +49,7 @@ class App extends React.Component {
     this.showResultsUser = this.showResultsUser.bind(this);
     this.upDown = this.upDown.bind(this);
     this.upDownUser = this.upDownUser.bind(this);
-    this.updatePlayer = this.updatePlayer.bind(this);
+    this.processRecommendation = this.processRecommendation.bind(this);
   }
 
   search(title, artist) {
@@ -150,12 +150,15 @@ class App extends React.Component {
     });
   }
 
-  updatePlayer(uri) {
+  processRecommendation(uri, songName, artistName) {
     this.setState({
-      spotifyURI: uri
+      currentLyrics: '',
+      spotifyURI: uri,
+      currentSongNameAndArtist: [
+        songName, artistName
+      ]
     });
     this.process(trackObj);
-    console.log('update spotify uri click !! HOORAAAAYYY wooohooo ')
   }
 
   render() {
@@ -199,10 +202,12 @@ class App extends React.Component {
               loadPastSearchResults={this.loadPastSearchResults}
             />
             <AnalysisTabs
+              currentLyrics={this.state.currentLyrics}
+              processRecommendation={this.processRecommendation}
+              showLyrics={this.state.showLyrics}
               spotifyAnalysis={this.state.spotifyAnalysis}
               spotifyURI={this.state.spotifyURI}
               songNameAndArtist={this.state.currentSongNameAndArtist}
-              updatePlayer={this.updatePlayer}
               watson={this.state.watson}
             />
           </div>

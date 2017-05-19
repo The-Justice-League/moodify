@@ -20,20 +20,21 @@ class AnalysisTabs extends React.Component {
         </TabList>
         <TabPanel>
           <Moodifier
+            currentLyrics={this.props.currentLyrics}
+            processRecommendation={this.props.processRecommendation}
             spotifyURI={this.props.spotifyURI}
             songNameAndArtist={this.props.songNameAndArtist}
             spotifyAnalysis={this.props.spotifyAnalysis}
-            updatePlayer={this.props.updatePlayer}
+            spotifyURI={this.props.spotifyURI}
+            songNameAndArtist={this.props.currentSongNameAndArtist}
             watson={this.props.watson}
-          >
-          </Moodifier>
+          />
         </TabPanel>
         <TabPanel>
           <LyricsAnalysis
             songNameAndArtist={this.props.songNameAndArtist}
             watson={this.props.watson}
-          >
-          </LyricsAnalysis>
+          />
         </TabPanel>
       </Tabs>
     );

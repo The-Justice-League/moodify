@@ -16,7 +16,7 @@ class Moodifier extends React.Component {
       dummyd: {
         songName: 'hello',
         artistName: 'Adele',
-        uridummy: `spotify:track:49edox3q89CG1g6rJVfmHE`
+        uridummy: `spotify:track:49edox3q89CG1g6rJVfmHE`,
       }
     }
 
@@ -65,7 +65,7 @@ class Moodifier extends React.Component {
 
   render() {
   //   console.log('getting inside moodifier jsx');
-    console.log('PROPS inside moodifier === ', this.props);
+    // console.log('PROPS inside moodifier === ', this.props);
     // console.log('spotifyURI inside moodifier === ', this.props.spotifyURI);
     return (
       <div className="maingraph">
@@ -87,10 +87,13 @@ class Moodifier extends React.Component {
       </div>
       <button onClick={this.moodify} >Moodify</button>
       <Recommendations
+        currentLyrics={this.props.currentLyrics}
         dummyd={this.state.dummyd}
+        processRecommendation={this.props.processRecommendation}
         songUris={this.state.songUris}
         spotifyURI={this.props.spotifyURI}
-        updatePlayer={this.props.updatePlayer}
+        spotifyURI={this.props.spotifyURI}
+        songNameAndArtist={this.props.songNameAndArtist}
       />
       </div>
     );
