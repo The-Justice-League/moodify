@@ -10,7 +10,6 @@
     }
   ],
   "env": {
-    "MONGODB_URI": { "required": true },
     "MM_API_KEY": { "required": true },
     "SPOTIFY_CLIENT_SECRET": { "require": true },
     "WATSON_NLU_PASSWORD": { "required": true },
