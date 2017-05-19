@@ -59,12 +59,12 @@ const authenticatedRequest = function( requestFunction, ...args ) {
   });
 };
 
-// standardize Spotify's music analysis results to a range of [-1, 1]
-// for consistency w/Watson API
+// standardize Spotify's music analysis results to a range of [0, 10] for client
+// and [0, 1] for Spotify.
 // can take single value, or array or object of values
-const standardizeResult = function( input ) {
+const standardizeResult = function( input, forClient = true ) {
   const standardizeValue = function( val ) {
-    return (val * 2) - 1;
+    return forClient ? (val * 10) : (val / 10);
   };
 
   if ( _.isArray(input) ) {

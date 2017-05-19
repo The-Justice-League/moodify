@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const Promise = require('bluebird');
 const request = Promise.promisifyAll(require('request'));
 const watson = Promise.promisifyAll(require('watson-developer-cloud'));
@@ -15,6 +16,22 @@ const tone_analyzer = watson.tone_analyzer({
   version_date: '2016-05-19'
 });
 
+// standardize Watson's music analysis results to a range of [0, 10]
+// can take single value, or array or object of values
+const standardizeResult = function( input ) {
+  const standardizeValue = function( val ) {
+    return val * 10;
+  };
+
+  if ( _.isArray(input) ) {
+    return _(input).map( val => standardizeValue(val) );
+  } else if ( _.isObject(input) ) {
+    return _(input).mapObject( val => standardizeValue(val) );
+  } else {
+    return standardizeValue(val);
+  }
+};
+
 const queryWatsonToneHelper = (songString) => {
   return tone_analyzer.toneAsync({ text: songString })
   .then (data => {
@@ -23,9 +40,7 @@ const queryWatsonToneHelper = (songString) => {
     let languageTone = data.document_tone.tone_categories[1];
     let socialTone = data.document_tone.tone_categories[2];
 
-    return {
-      song: songString,
-
+    const scores = standardizeResult({
       // Emotion Tone
       anger: emotionalTone.tones[0].score,
       disgust: emotionalTone.tones[1].score,
@@ -44,8 +59,9 @@ const queryWatsonToneHelper = (songString) => {
       extraversion: socialTone.tones[2].score,
       agreeableness: socialTone.tones[3].score,
       emotionalrange: socialTone.tones[4].score
+    });
 
-    };
+    return _.extend( { song: songString }, scores );
   })
   .catch(err => {
     console.log("queryWatsonToneHelper error: ", err);
