@@ -49,6 +49,7 @@ class App extends React.Component {
     this.showResultsUser = this.showResultsUser.bind(this);
     this.upDown = this.upDown.bind(this);
     this.upDownUser = this.upDownUser.bind(this);
+    this.updatePlayer = this.updatePlayer.bind(this);
   }
 
   search(title, artist) {
@@ -199,8 +200,9 @@ class App extends React.Component {
             <AnalysisTabs
               spotifyAnalysis={this.state.spotifyAnalysis}
               spotifyURI={this.state.spotifyURI}
-              watson={this.state.watson}
               songNameAndArtist={this.state.currentSongNameAndArtist}
+              updatePlayer={this.updatePlayer}
+              watson={this.state.watson}
             />
           </div>
         </div>
