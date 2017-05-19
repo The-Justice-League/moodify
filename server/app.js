@@ -74,43 +74,51 @@ app.post('/process', (req, res) => {
   let input = req.body;
   const songNameAndArtist = [input.artist_name, input.track_name];
   let watsonData = {};
+  let promise;
 
-  return musixMatch.getLyricsByTrackId(input.track_id)
-  .then(data => {
-    const lyrics = data.lyrics.lyrics_body;
-    input.lyrics = lyrics.slice(0, (lyrics.indexOf('*******')));
-    return;
-  })
-  .then(() => {
-    return watson.queryWatsonToneHelper(input.lyrics)
-  })
-  .then(data => {
-    watsonData = {
-      track_id: input.track_id,
-      anger: data.anger,
-      disgust: data.disgust,
-      fear: data.fear,
-      joy: data.joy,
-      sadness: data.sadness,
-      analytical: data.analytical,
-      confident: data.confident,
-      tentative: data.tentative,
-      openness: data.openness,
-      conscientiousness: data.conscientiousness,
-      extraversion: data.extraversion,
-      agreeableness: data.agreeableness,
-      emotionalrange: data.emotionalrange
-    };
-    const newEntry = new db.Watson(watsonData);
-    newEntry.save(err => {
-      if (err) { console.log('SAVE WATSON ERROR', err ); }
+  if ( input.track_id ) {
+    promise = musixMatch.getLyricsByTrackId(input.track_id)
+    .then(data => {
+      const lyrics = data.lyrics.lyrics_body;
+      input.lyrics = lyrics.slice(0, (lyrics.indexOf('*******')));
     })
-  })
-  .then(() => {
-    if (req.session.username) {
-      return db.User.where({username: req.session.username}).update({ $push: {songs: input.track_id}})
-    }
-  })
+    .then(() => {
+      return watson.queryWatsonToneHelper(input.lyrics)
+    })
+    .then(data => {
+      watsonData = {
+        track_id: input.track_id,
+        anger: data.anger,
+        disgust: data.disgust,
+        fear: data.fear,
+        joy: data.joy,
+        sadness: data.sadness,
+        analytical: data.analytical,
+        confident: data.confident,
+        tentative: data.tentative,
+        openness: data.openness,
+        conscientiousness: data.conscientiousness,
+        extraversion: data.extraversion,
+        agreeableness: data.agreeableness,
+        emotionalrange: data.emotionalrange
+      };
+      const newEntry = new db.Watson(watsonData);
+      newEntry.save(err => {
+        if (err) { console.log('SAVE WATSON ERROR', err ); }
+      })
+    })
+    .then(() => {
+      if (req.session.username) {
+        return db.User.where({username: req.session.username}).update({ $push: {songs: input.track_id}})
+      }
+    });
+  } else {
+    promise = Promise.resolve();
+    input.lyrics = '';
+    watsonData = {};
+  }
+
+  return promise
   .then(() => {
     return spotify.getSongByTitleAndArtist(input.track_name, input.artist_name)
   })
@@ -184,6 +192,17 @@ app.post('/loadPastSearchResults', (req, res) => {
     })
   })
   .catch(err => { res.send(err); })
+});
+
+// Recommendations GET request expects options passed as querystring parameters in URL:
+//   uri: Spotify URI of recommendation seed track
+//   options: {
+//     danceability [optional]:  target danceability score, range [-1, 1]
+//     energy       [optional]:  target danceability score, range [-1, 1]
+//     mood         [optional]:  target danceability score, range [-1, 1]
+//   }
+//   num_results [optional]: number of search results
+app.get('/recommendations', (req, res) => {
 });
 
 module.exports = app;
