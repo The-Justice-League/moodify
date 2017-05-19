@@ -12,7 +12,7 @@ class Moodifier extends React.Component {
       danceability: '',
       energy: '',
       mood: '',
-      songURIs: [],
+      recommendations: [],
       dummyd: {
         songName: 'hello',
         artistName: 'Adele',
@@ -20,7 +20,7 @@ class Moodifier extends React.Component {
       }
     }
 
-    this.danceability = this.danceability.bind(this);
+    // this.danceability = this.danceability.bind(this);
     this.energy = this.energy.bind(this);
     this.mood = this.mood.bind(this);
   }
@@ -44,18 +44,18 @@ class Moodifier extends React.Component {
   }
 
   moodify() {
-  // declare a queries object and set danceability, mood and enery as properties on it
     const queries = {
       danceability: this.state.danceability,
       mood: this.state.mood,
       energy: this.state.energy,
-      spotifyURI: this.props.spotifyURI
+      uri: this.props.spotifyURI,
+      'num_results': 5
     }
-    axios.post('/moodify', queries).then(res => {
+    axios.get('/moodify', { params: queries }).then(res => {
       const data = res.data;
-
+      console.log('Response in /moodify === ', data)
       this.setState({
-        songURIs: data.uris
+        recommendations: data.recommendations
       })
       .catch(error => {
         throw error;
@@ -65,8 +65,11 @@ class Moodifier extends React.Component {
 
   render() {
   //   console.log('getting inside moodifier jsx');
-    // console.log('PROPS inside moodifier === ', this.props);
-    // console.log('spotifyURI inside moodifier === ', this.props.spotifyURI);
+    console.log('PROPS inside moodifier === ', this.props);
+    // console.log('danceability === ', this.state.danceability);
+    // console.log('mood === ', this.state.mood);
+    // console.log('energy === ', this.state.energy);
+
     return (
       <div className="maingraph">
       <h2>Music Analysis</h2>
@@ -90,7 +93,7 @@ class Moodifier extends React.Component {
         currentLyrics={this.props.currentLyrics}
         dummyd={this.state.dummyd}
         processRecommendation={this.props.processRecommendation}
-        songUris={this.state.songUris}
+        recommendations={this.state.recommendations}
         spotifyURI={this.props.spotifyURI}
         spotifyURI={this.props.spotifyURI}
         songNameAndArtist={this.props.songNameAndArtist}

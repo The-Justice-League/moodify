@@ -12,7 +12,7 @@ class Recommendations extends React.Component {
 
   render() {
     console.log('Props in Recommendations === ', this.props)
-    console.log('Show lyrics is currently set to === ', this.props.showLyrics)
+    // console.log('Show lyrics is currently set to === ', this.props.showLyrics)
     return (
       <div >
         <h2>Recommendations</h2>
