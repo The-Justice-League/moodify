@@ -55,9 +55,9 @@ describe( 'spotify API', function() {
     });
 
     it( 'should return results in the expected range', function() {
-      expect(result.danceability).to.be.within(-1, 1);
-      expect(result.energy).to.be.within(-1, 1);
-      expect(result.mood).to.be.within(-1, 1);
+      expect(result.danceability).to.be.within(0, 10);
+      expect(result.energy).to.be.within(0, 10);
+      expect(result.mood).to.be.within(0, 10);
     });
   });
 
