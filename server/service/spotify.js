@@ -33,7 +33,7 @@ const requestAccessToken = () => {
 const isExpiredTokenError = function( err ) {
   if ( err.response &&
        err.response.headers &&
-       err.response.headers['www-authenticate'] &&
+       (authHeader = err.response.headers['www-authenticate']) &&
        (parsedHeader = new authenticationParsers.WWW_Authenticate(authHeader)) &&
        parsedHeader.parms &&
        (parsedHeader.parms.error_description === 'The access token expired') ) {
@@ -101,6 +101,28 @@ const getTrackAnalysisRequest = function( trackId ) {
     // };
     });
   });
+};
+
+const getRecommendationsRequest = function( uri, options, numResults ) {
+  // write test case
+
+  // extract trackId
+
+  // remap options to spotify options
+    // mood -> valence
+    // number ranges
+
+  // put params into axios querystring
+    // target_*={#}
+    // seed_tracks={id}
+    // submit query
+    // limit=5
+
+  // return axios call
+
+  // add request call wrapper
+  // add module.exports
+  // handle in app
 };
 
 const getSongByTitleAndArtist = function( title, artist ) {
