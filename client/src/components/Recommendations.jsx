@@ -16,8 +16,11 @@ class Recommendations extends React.Component {
     return (
       <div >
         <h2>Recommendations</h2>
-        <h6 onClick={this.changeSong.bind(this, this.props.dummyd.uridummy, this.props.dummyd.songName, this.props.dummyd.artistName)} >
-        {this.props.dummyd.songName + ' ' + this.props.dummyd.artistName}</h6>
+        <h6 onClick={this.changeSong.bind(this, this.props.dummyd[0].uridummy, this.props.dummyd[0].songName, this.props.dummyd[0].artistName)} >
+        {this.props.dummyd[0].songName + ' ' + this.props.dummyd[0].artistName}</h6>
+
+        <h6 onClick={this.changeSong.bind(this, this.props.dummyd[1].uridummy, this.props.dummyd[1].songName, this.props.dummyd[1].artistName)} >
+        {this.props.dummyd[1].songName + ' ' + this.props.dummyd[1].artistName}</h6>
       </div>
     );
   }
@@ -27,4 +30,6 @@ export default Recommendations;
 
 /*
 <h6>{this.props.songNameAndArtist[0] + ' - ' + this.props.songNameAndArtist[1]}</h6>
+
+
 */

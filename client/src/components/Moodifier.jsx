@@ -14,7 +14,6 @@ class Moodifier extends React.Component {
       danceability: '',
       moodifyData: {
         labels: ['Mood', 'Energy', 'Danceability'],
-        label: props.songNameAndArtist[0] + ' - ' + props.songNameAndArtist[1],
         datasets: [{
           data: [
             props.spotifyAnalysis.mood,
@@ -35,11 +34,17 @@ class Moodifier extends React.Component {
         }]
       },
       recommendations: [],
-      dummyd: {
+      dummyd: [{
         songName: 'hello',
         artistName: 'Adele',
-        uridummy: `spotify:track:49edox3q89CG1g6rJVfmHE`
+        uridummy: `spotify:track:0ENSn4fwAbCGeFGVUbXEU3`
+      },
+      {
+        songName: 'Stronger',
+        artistName: 'Kanye',
+        uridummy: `spotify:track:6C7RJEIUDqKkJRZVWdkfkH`
       }
+      ]
     }
 
     this.danceability = this.danceability.bind(this);
@@ -51,7 +56,6 @@ class Moodifier extends React.Component {
     this.setState({
       moodifyData: {
         labels: ['Mood', 'Energy', 'Danceability'],
-        label: props.songNameAndArtist[0] + ' - ' + props.songNameAndArtist[1],
         datasets: [{
           data: [
             props.spotifyAnalysis.mood,
