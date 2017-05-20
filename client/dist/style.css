@@ -143,6 +143,14 @@ html {
   display: inline-block;
   text-align: center;
   justify-content: space-between;
+  margin-left: 90px;
+  margin-top: 20px;
+}
+
+#mood,
+#danceability,
+#energy {
+  color: white;
 }
 
 .mood:focus,

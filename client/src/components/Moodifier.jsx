@@ -15,7 +15,7 @@ class Moodifier extends React.Component {
       moodifyData: {
         labels: ['Mood', 'Energy', 'Danceability'],
         datasets: [{
-          label: '',
+          label: 'Song Info',
           data: [
             props.spotifyAnalysis.mood,
             props.spotifyAnalysis.energy,
@@ -34,7 +34,14 @@ class Moodifier extends React.Component {
           borderWidth: 5
         }]
       },
-      recommendations: [],
+      emotionOptions: {
+        title: {
+          display: false,
+          text: 'Kanye West - Famous',
+          fontSize: 24
+        }
+      },
+      recommendations: []
     }
 
     this.danceability = this.danceability.bind(this);
@@ -48,7 +55,7 @@ class Moodifier extends React.Component {
       moodifyData: {
         labels: ['Mood', 'Energy', 'Danceability'],
         datasets: [{
-          label: '',
+          label: 'Moodified ~',
           data: [
             props.spotifyAnalysis.mood,
             props.spotifyAnalysis.energy,
@@ -67,8 +74,9 @@ class Moodifier extends React.Component {
           borderWidth: 5
         }]
       },
-    });
-  }
+      });
+    }
+
 
   danceability(event) {
     this.setState({
@@ -128,8 +136,8 @@ class Moodifier extends React.Component {
         />
 
         <div className="inputFields">
-          <label>
-          Mood
+          <label id="mood">
+          inputFields
           <input
             className="mood"
             value={this.state.mood}
@@ -139,8 +147,8 @@ class Moodifier extends React.Component {
           />
           </label>
 
-          <label>
-          Energy
+          <label id="energy">
+          inputFields
           <input
             className="energy"
             value={this.state.energy}
@@ -150,8 +158,8 @@ class Moodifier extends React.Component {
           />
           </label>
 
-          <label>
-             Danceability
+          <label id="danceability">
+             inputFields
             <input
               className="danceability"
               value={this.state.danceability}
@@ -160,8 +168,8 @@ class Moodifier extends React.Component {
               placeholder="danceability"
             />
           </label>
+        <button className="moodify" onClick={this.moodify} >Moodify</button>
       </div>
-      <button className="moodify" onClick={this.moodify} >Moodify</button>
 
       {this.state.recommendations.length > 0 ?
         <div>
