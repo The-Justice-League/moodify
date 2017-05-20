@@ -152,13 +152,15 @@ class App extends React.Component {
 
   processRecommendation(uri, songName, artistName) {
     this.setState({
-      currentLyrics: '',
       spotifyURI: uri,
       currentSongNameAndArtist: [
         songName, artistName
       ]
     });
-    this.process(trackObj);
+    this.process({
+      track_name: songName,
+      artist_name: artistName
+    });
   }
 
   render() {

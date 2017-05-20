@@ -50,6 +50,7 @@ class Moodifier extends React.Component {
     this.danceability = this.danceability.bind(this);
     this.energy = this.energy.bind(this);
     this.mood = this.mood.bind(this);
+    this.moodify = this.moodify.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -103,15 +104,26 @@ class Moodifier extends React.Component {
       danceability: this.state.danceability,
       uri: this.props.spotifyURI,
       'num_results': 5
+    };
+    if ( this.state.danceability ) {
+      queries.danceability = this.state.danceability;
     }
-    axios.get('/moodify', { params: queries }).then(res => {
+    if ( this.state.mood ) {
+      queries.mood = this.state.mood;
+    }
+    if ( this.state.energy ) {
+      queries.energy = this.state.energy;
+    }
+
+    axios.get('/recommend', { params: queries })
+    .then(res => {
       const data = res.data;
       this.setState({
         recommendations: data.recommendations
-      })
-      .catch(error => {
-        throw error;
       });
+    })
+    .catch(error => {
+      throw error;
     });
   }
 
@@ -124,13 +136,13 @@ class Moodifier extends React.Component {
       <Bar data={this.state.moodifyData} width={500}/>
       <div className="inputFields">
         <label>
-          Mood
-          <input value={this.state.mood} type="text" onChange={this.mood} />
+        Mood
+        <input value={this.state.mood} type="text" onChange={this.mood} />
         </label>
 
         <label>
-          Energy
-          <input value={this.state.energy} type="text" onChange={this.energy} />
+        Energy
+        <input value={this.state.energy} type="text" onChange={this.energy} />
         </label>
 
         <label>
@@ -142,13 +154,8 @@ class Moodifier extends React.Component {
       </div>
       <button onClick={this.moodify} >Moodify</button>
       <Recommendations
-        currentLyrics={this.props.currentLyrics}
-        dummyd={this.state.dummyd}
         processRecommendation={this.props.processRecommendation}
         recommendations={this.state.recommendations}
-        spotifyURI={this.props.spotifyURI}
-        spotifyURI={this.props.spotifyURI}
-        songNameAndArtist={this.props.songNameAndArtist}
       />
       </div>
     );
@@ -157,4 +164,19 @@ class Moodifier extends React.Component {
 
 export default Moodifier;
 
-
+/*
+return (
+  <div className="maingraph">
+  <h2>Music Analysis</h2>
+  <Bar data={this.state.emotionData} options={this.state.emotionOptions} width={500}/>
+  <div className="maingraph">
+  <h5>Social</h5>
+  <Polar data={this.state.socialData} options={this.state.socialData} width={500}/>
+  </div>
+  <div className="maingraph">
+  <h5>Language</h5>
+  <Doughnut data={this.state.languageData} options={this.state.languageOptions} width={500}/>
+  </div>
+  </div>
+)
+*/
