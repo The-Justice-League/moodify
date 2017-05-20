@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 // const path = require('path');
 const cors = require('cors');
 const Promise = require('bluebird');
+const _ = require('underscore');
 
 // other module exports
 const auth = require('./auth.js');
@@ -194,15 +195,51 @@ app.post('/loadPastSearchResults', (req, res) => {
   .catch(err => { res.send(err); })
 });
 
-// Recommendations GET request expects options passed as querystring parameters in URL:
+// /recommend GET request expects options passed as querystring parameters in URL:
 //   uri: Spotify URI of recommendation seed track
-//   options: {
-//     danceability [optional]:  target danceability score, range [-1, 1]
-//     energy       [optional]:  target danceability score, range [-1, 1]
-//     mood         [optional]:  target danceability score, range [-1, 1]
-//   }
-//   num_results [optional]: number of search results
-app.get('/recommendations', (req, res) => {
+//   danceability [optional]:  target danceability score, range [-1, 1]
+//   energy       [optional]:  target danceability score, range [-1, 1]
+//   mood         [optional]:  target danceability score, range [-1, 1]
+//   num_results  [optional]:  number of search results desired
+//
+// results come in a response object with one key:
+// recommendations: array of recommendation objects
+//
+// recommendation object:
+// artistName: String
+// songName: String
+// uri: Spotify URI
+app.get('/recommend', (req, res) => {
+  let moodifiers = {};
+
+  if ( req.query.hasOwnProperty('danceability') ) {
+    moodifiers.danceability = req.query.danceability;
+  }
+  if ( req.query.hasOwnProperty('energy') ) {
+    moodifiers.energy = req.query.energy;
+  }
+  if ( req.query.hasOwnProperty('mood') ) {
+    moodifiers.mood = req.query.mood;
+  }
+
+  return spotify.getRecommendations( req.query.uri, moodifiers, req.query.num_results )
+  .then( spotifyResponse => {
+
+    const recs = spotifyResponse.data.tracks.map( track => {
+      const artists = _(track.artists).pluck('name').join(' and ');
+      return {
+        artistName: artists,
+        songName: track.name,
+        uri: track.uri,
+      };
+    });
+
+    res.status(200).send({ recommendations: recs });
+  })
+  .catch( err => {
+    console.log( err );
+    res.status(500).send(err);
+  });
 });
 
 module.exports = app;
