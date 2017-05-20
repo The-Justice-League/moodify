@@ -234,7 +234,7 @@ html {
 
 #header {
   height:100;
-  background-image: url("./img/background6.jpg");
+  background-image: url("./img/background.jpg");
   background-repeat: no-repeat;
   width:100%;
   position: relative;
@@ -274,11 +274,11 @@ body {
 pre {
   font-family: 'Josefin Sans', sans-serif;
   width: 475;
-  white-space: pre-wrap;       /* css-3 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 
 h2 {
@@ -443,7 +443,6 @@ h6 {
   font-size: 16;
   font-style: italic;
   margin-bottom: 0;
-  /*width: 40%;*/
   text-transform: capitalize;
   cursor: pointer;
 }
