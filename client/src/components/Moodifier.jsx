@@ -15,6 +15,7 @@ class Moodifier extends React.Component {
       moodifyData: {
         labels: ['Mood', 'Energy', 'Danceability'],
         datasets: [{
+          label: '',
           data: [
             props.spotifyAnalysis.mood,
             props.spotifyAnalysis.energy,
@@ -34,17 +35,6 @@ class Moodifier extends React.Component {
         }]
       },
       recommendations: [],
-      dummyd: [{
-        songName: 'hello',
-        artistName: 'Adele',
-        uridummy: `spotify:track:0ENSn4fwAbCGeFGVUbXEU3`
-      },
-      {
-        songName: 'Stronger',
-        artistName: 'Kanye',
-        uridummy: `spotify:track:6C7RJEIUDqKkJRZVWdkfkH`
-      }
-      ]
     }
 
     this.danceability = this.danceability.bind(this);
@@ -58,6 +48,7 @@ class Moodifier extends React.Component {
       moodifyData: {
         labels: ['Mood', 'Energy', 'Danceability'],
         datasets: [{
+          label: '',
           data: [
             props.spotifyAnalysis.mood,
             props.spotifyAnalysis.energy,
@@ -128,8 +119,6 @@ class Moodifier extends React.Component {
   }
 
   render() {
-    console.log('PROPS inside moodifier === ', this.props); // ADD OPTIONS TO BAR
-    // mood, energy, dancability (in that order)
     return (
       <div className="maingraph">
         <h2>Music Analysis</h2>
@@ -173,30 +162,20 @@ class Moodifier extends React.Component {
           </label>
       </div>
       <button className="moodify" onClick={this.moodify} >Moodify</button>
-      <Recommendations
-        processRecommendation={this.props.processRecommendation}
-        recommendations={this.state.recommendations}
-      />
+
+      {this.state.recommendations.length > 0 ?
+        <div>
+          <h2>Recommendations</h2>
+          <Recommendations
+            processRecommendation={this.props.processRecommendation}
+            recommendations={this.state.recommendations}
+          />
+          </div>
+      : null}
+
       </div>
     );
   }
 }
 
 export default Moodifier;
-
-/*
-return (
-  <div className="maingraph">
-  <h2>Music Analysis</h2>
-  <Bar data={this.state.emotionData} options={this.state.emotionOptions} width={500}/>
-  <div className="maingraph">
-  <h5>Social</h5>
-  <Polar data={this.state.socialData} options={this.state.socialData} width={500}/>
-  </div>
-  <div className="maingraph">
-  <h5>Language</h5>
-  <Doughnut data={this.state.languageData} options={this.state.languageOptions} width={500}/>
-  </div>
-  </div>
-)
-*/

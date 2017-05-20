@@ -9,7 +9,6 @@ class Recommendations extends React.Component {
   render() {
     return (
       <div className="recommendation">
-        <h2>Recommendations</h2>
         { this.props.recommendations.map( (recommendation, idx) =>
           <Recommendation
             processRecommendation={this.props.processRecommendation}
@@ -26,15 +25,3 @@ class Recommendations extends React.Component {
 
 export default Recommendations;
 
-/*
-<div className="resultsBox">
-  {this.props.results.track_list.map((trackObj, i) => (
-    <div
-      className='searchText'
-      key={i}
-      value={i}
-      onClick={this.handleClick} > {i + 1}. {trackObj.track.track_name} - {trackObj.track.artist_name}
-    </div>
-  ))}
-</div>
-*/
