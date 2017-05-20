@@ -132,27 +132,47 @@ class Moodifier extends React.Component {
     // mood, energy, dancability (in that order)
     return (
       <div className="maingraph">
-      <h2>Music Analysis</h2>
-      <Bar data={this.state.moodifyData} width={500}/>
-      <div className="inputFields">
-        <label>
-        Mood
-        <input value={this.state.mood} type="text" onChange={this.mood} />
-        </label>
+        <h2>Music Analysis</h2>
+        <Bar
+          data={this.state.moodifyData}
+          width={500}
+        />
 
-        <label>
-        Energy
-        <input value={this.state.energy} type="text" onChange={this.energy} />
-        </label>
+        <div className="inputFields">
+          <label>
+          Mood
+          <input
+            className="mood"
+            value={this.state.mood}
+            type="text"
+            onChange={this.mood}
+            placeholder="mood"
+          />
+          </label>
 
-        <label>
-           Danceability
-          <input value={this.state.danceability} type="text" onChange={this.danceability} />
-        </label>
+          <label>
+          Energy
+          <input
+            className="energy"
+            value={this.state.energy}
+            type="text"
+            onChange={this.energy}
+            placeholder="energy"
+          />
+          </label>
 
-
+          <label>
+             Danceability
+            <input
+              className="danceability"
+              value={this.state.danceability}
+              type="text"
+              onChange={this.danceability}
+              placeholder="danceability"
+            />
+          </label>
       </div>
-      <button onClick={this.moodify} >Moodify</button>
+      <button className="moodify" onClick={this.moodify} >Moodify</button>
       <Recommendations
         processRecommendation={this.props.processRecommendation}
         recommendations={this.state.recommendations}
