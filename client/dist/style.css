@@ -82,14 +82,6 @@ html {
   font-size: 15;
   margin-left: 10;
   cursor: pointer;
-  /*background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1480fb), color-stop(1, #1f51f5));
-  background:-moz-linear-gradient(top, #1480fb 5%, #1f51f5 100%);
-  background:-webkit-linear-gradient(top, #1480fb 5%, #1f51f5 100%);
-  background:-o-linear-gradient(top, #1480fb 5%, #1f51f5 100%);
-  background:-ms-linear-gradient(top, #1480fb 5%, #1f51f5 100%);
-  background:linear-gradient(to bottom, #1480fb 5%, #1f51f5 100%);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1480fb', endColorstr='#1f51f5',GradientType=0);
-  background-color:#1ED760;*/
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
   border-radius:5px;
@@ -292,7 +284,7 @@ h2 {
 }
 
 h3 {
-  font-family: 'Slackey', sans-serif;
+  font-family: 'Barrio', sans-serif;
   text-align: left;
   font-style: bold;
   vertical-align: bottom;
