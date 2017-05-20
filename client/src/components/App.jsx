@@ -33,7 +33,7 @@ class App extends React.Component {
       showPrev: false,
       showResults: false,
       showResultsUser: false,
-      spotifyAnalysis: null,
+      spotifyAnalysis: {},
       spotifyLoading: false,
       spotifyURI: null,
       upDown: true,

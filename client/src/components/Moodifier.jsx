@@ -9,20 +9,73 @@ class Moodifier extends React.Component {
     super(props);
 
     this.state = {
-      danceability: '',
-      energy: '',
       mood: '',
+      energy: '',
+      danceability: '',
+      moodifyData: {
+        labels: ['Mood', 'Energy', 'Danceability'],
+        datasets: [{
+          data: [
+            props.spotifyAnalysis.mood,
+            props.spotifyAnalysis.energy,
+            props.spotifyAnalysis.danceability
+          ],
+        backgroundColor: [
+          'rgba(252, 61, 57, 1)',
+          'rgba(254, 203, 46, 1)',
+          'rgba(83, 215, 105, 1)'
+          ],
+          borderColor: [
+            'rgba(252, 61, 57, 1)',
+            'rgba(254, 203, 46, 1)',
+            'rgba(83, 215, 105, 1)'
+          ],
+          borderWidth: 5
+        }]
+      },
       recommendations: [],
-      dummyd: {
+      dummyd: [{
         songName: 'hello',
         artistName: 'Adele',
-        uridummy: `spotify:track:49edox3q89CG1g6rJVfmHE`,
+        uridummy: `spotify:track:0ENSn4fwAbCGeFGVUbXEU3`
+      },
+      {
+        songName: 'Stronger',
+        artistName: 'Kanye',
+        uridummy: `spotify:track:6C7RJEIUDqKkJRZVWdkfkH`
       }
+      ]
     }
 
     this.danceability = this.danceability.bind(this);
     this.energy = this.energy.bind(this);
     this.mood = this.mood.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      moodifyData: {
+        labels: ['Mood', 'Energy', 'Danceability'],
+        datasets: [{
+          data: [
+            props.spotifyAnalysis.mood,
+            props.spotifyAnalysis.energy,
+            props.spotifyAnalysis.danceability
+          ],
+        backgroundColor: [
+          'rgba(252, 61, 57, 1)',
+          'rgba(254, 203, 46, 1)',
+          'rgba(83, 215, 105, 1)'
+          ],
+          borderColor: [
+            'rgba(252, 61, 57, 1)',
+            'rgba(254, 203, 46, 1)',
+            'rgba(83, 215, 105, 1)'
+          ],
+          borderWidth: 5
+        }]
+      },
+    });
   }
 
   danceability(event) {
@@ -45,9 +98,9 @@ class Moodifier extends React.Component {
 
   moodify() {
     const queries = {
-      danceability: this.state.danceability,
       mood: this.state.mood,
       energy: this.state.energy,
+      danceability: this.state.danceability,
       uri: this.props.spotifyURI,
       'num_results': 5
     }
@@ -63,24 +116,29 @@ class Moodifier extends React.Component {
   }
 
   render() {
-    // console.log('PROPS inside moodifier === ', this.props);
+    console.log('PROPS inside moodifier === ', this.props); // ADD OPTIONS TO BAR
+    // mood, energy, dancability (in that order)
     return (
       <div className="maingraph">
       <h2>Music Analysis</h2>
-      <Bar data={this.props.spotifyAnalysis} options={this.state.emotionOptions} width={500}/>
+      <Bar data={this.state.moodifyData} width={500}/>
       <div className="inputFields">
         <label>
-        Danceability
-        <input value={this.state.danceability} type="text" onChange={this.danceability} />
+          Mood
+          <input value={this.state.mood} type="text" onChange={this.mood} />
         </label>
+
         <label>
-        Mood
-        <input value={this.state.mood} type="text" onChange={this.mood} />
+          Energy
+          <input value={this.state.energy} type="text" onChange={this.energy} />
         </label>
+
         <label>
-        Energy
-        <input value={this.state.energy} type="text" onChange={this.energy} />
+           Danceability
+          <input value={this.state.danceability} type="text" onChange={this.danceability} />
         </label>
+
+
       </div>
       <button onClick={this.moodify} >Moodify</button>
       <Recommendations
@@ -99,19 +157,4 @@ class Moodifier extends React.Component {
 
 export default Moodifier;
 
-/*
-return (
-  <div className="maingraph">
-  <h2>Music Analysis</h2>
-  <Bar data={this.state.emotionData} options={this.state.emotionOptions} width={500}/>
-  <div className="maingraph">
-  <h5>Social</h5>
-  <Polar data={this.state.socialData} options={this.state.socialData} width={500}/>
-  </div>
-  <div className="maingraph">
-  <h5>Language</h5>
-  <Doughnut data={this.state.languageData} options={this.state.languageOptions} width={500}/>
-  </div>
-  </div>
-)
-*/
+
