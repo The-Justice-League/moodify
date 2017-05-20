@@ -71,25 +71,53 @@ class LoginSignup extends React.Component {
         <div className="loginForm">
         Have an account?
         <br />
-          <input type="text" className="inputText" name="usernameL" value={this.state.usernameL} placeholder="username" onChange={this.usernameChangeL.bind(this)} />
-          <br />
-          <input type="password" className="inputText" name="passwordL" value={this.state.passwordL} placeholder="password" onChange={this.passwordChangeL.bind(this)} />
-          <br />
-          <button onClick={this.handleLogin.bind(this)} className="loginButton"> Login </button>
-          <br />
+        <input
+          type="text"
+          className="inputText"
+          name="usernameL"
+          value={this.state.usernameL}
+          placeholder="username"
+          onChange={this.usernameChangeL.bind(this)} />
+        <br />
+          <input
+          type="password"
+          className="inputText"
+          name="passwordL"
+          alue={this.state.passwordL}
+          placeholder="password"
+          onChange={this.passwordChangeL.bind(this)} />
+        <br />
+          <button
+          onClick={this.handleLogin.bind(this)}
+          className="loginButton"> Login </button>
+        <br />
           {this.state.userError.length > 0 ?
-          <div className="errorMessage">{this.state.userError}</div>
+        <div className="errorMessage">{this.state.userError}</div>
           : null}
         </div>
         <div className="signupForm">
         Need to sign up?
         <br />
-          <input type="text" className="inputText" name="usernameS" value={this.state.usernameS} placeholder="username" onChange={this.usernameChangeS.bind(this)} />
-          <br />
-          <input type="password" className="inputText" name="passwordS" value={this.state.passwordS} placeholder="password" onChange={this.passwordChangeS.bind(this)} />
-          <br />
-          <button onClick={this.handleSignup.bind(this)} className="loginButton"> Signup </button>
-          <br />
+          <input
+          type="text"
+          className="inputText"
+          name="usernameS"
+          value={this.state.usernameS}
+          placeholder="username"
+          onChange={this.usernameChangeS.bind(this)} />
+        <br />
+          <input
+          type="password"
+          className="inputText"
+          name="passwordS"
+          value={this.state.passwordS}
+          placeholder="password"
+          onChange={this.passwordChangeS.bind(this)} />
+        <br />
+          <button
+            onClick={this.handleSignup.bind(this)}
+            className="loginButton"> Signup </button>
+        <br />
           {this.state.signError.length > 0 ?
           <div className="errorMessage">{this.state.signError}</div>
           : null}

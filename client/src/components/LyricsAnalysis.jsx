@@ -9,7 +9,7 @@ class LyricsAnalysis extends React.Component {
       emotionData: {
         labels: ["Anger", "Joy", "Disgust", "Sadness", "Fear"],
         datasets: [{
-            label: props.songNameAndArtist[0] + ' - ' + props.songNameAndArtist[1],
+            label: 'Song Info',
             data: [
               props.watson.anger,
               props.watson.joy,

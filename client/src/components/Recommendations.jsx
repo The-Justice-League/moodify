@@ -8,8 +8,7 @@ class Recommendations extends React.Component {
 
   render() {
     return (
-      <div >
-        <h2>Recommendations</h2>
+      <div className="recommendation">
         { this.props.recommendations.map( (recommendation, idx) =>
           <Recommendation
             processRecommendation={this.props.processRecommendation}
@@ -25,3 +24,4 @@ class Recommendations extends React.Component {
 };
 
 export default Recommendations;
+

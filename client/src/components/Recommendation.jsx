@@ -7,14 +7,12 @@ class Recommendation extends React.Component {
   }
 
   changeSong(event) {
-    console.log( '1' );
     this.props.processRecommendation( this.props.uri, this.props.songName, this.props.artistName);
-    console.log( '2' );
   }
 
   render() {
     return (
-      <div onClick={this.changeSong} >
+      <div className="searchtext" onClick={this.changeSong} >
         <strong>{this.props.artistName + ' - ' + this.props.songName}</strong>
       </div>
     );
@@ -22,3 +20,4 @@ class Recommendation extends React.Component {
 }
 
 export default Recommendation;
+
