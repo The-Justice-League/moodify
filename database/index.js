@@ -17,7 +17,7 @@ db.once('open', () => {
 });
 
 let songSchema = mongoose.Schema({
-	track_id: {type: Number, unique: true},
+	track_id: {type: Number },
 	track_name: String,
 	artist_name: String,
 	album_coverart_100x100: String,
@@ -32,7 +32,7 @@ const Song = mongoose.model('Song', songSchema);
 
 let watsonSchema = mongoose.Schema({
 
-  track_id: { type: Number, unique: true },
+  track_id: { type: Number },
 
 	// Emotion Tone
   anger: Number,
